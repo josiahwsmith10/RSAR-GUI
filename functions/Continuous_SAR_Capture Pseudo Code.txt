@@ -1,0 +1,51 @@
+Continuous Scanning Function
+
+StartCapturingConSARCommandButtonPushed(app, event)
+	initialize variables from GUI
+	Start Loop nV = 1:numberOfVerticalSteps
+		update text areas
+		check sarScenarioActive %% isActuatorConnected && isTIRadarConnected
+		
+		if waitDuration >= 0
+			start horizontal movement
+			pause for waitDuration seconds
+		end
+		
+		setup DCA if using DCA
+		start triggering radar
+		
+		if waitDuration < 0
+			pause for abs(waitDuration) seconds
+			start horizontal movement
+		end
+		
+		pause( abs(horizontalScanSize_mm)/app.HorizontalScanSpeedmmsEditField.Value + abs(waitDuration))
+		
+		update text areas
+		
+		extra pause for tolerance
+		
+		if scnario is active and we are still connected
+			if nV ~= numberOfVerticalSteps
+				start vertical movement
+				pause( abs(stepVertical)/app.VerticalSpeedmmsEditField.Value + 1)
+				
+				update text areas
+				
+				reverse horizontal movement
+				
+				extra pause for tolerance
+				
+			else (requires nV == numberOfVerticalSteps)
+				if app.totalHorizontalMovmentmmEditField.Value ~= initialHorizontalPosition_mm
+					start horizontal movement (should be back to initial position)
+					pause enough time to move back
+				end
+				start vertical movement (should be back to initial position)
+				pause enough time to move back
+				update text areas
+				extra pause for tolerance
+			end (if/else)
+		end (if)
+	end (loop)
+end (function)
