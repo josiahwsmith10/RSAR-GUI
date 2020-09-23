@@ -12,11 +12,11 @@ errorStatus = calllib('AMC4030','COM_API_OpenLink',app.ScannerCOMPort,115200);
 if libisloaded('AMC4030') && errorStatus == 1
     app.ActuatorConnectionStatusLamp.Color = 'green';
     app.isActuatorConnected = true;
-    app.RadarScreenTextArea.Value = "AMC 4030 Connection Successful!";
+    app.StatusScreenTextArea.Value = "AMC 4030 Connection Successful!";
 end
 
 if errorStatus ~= 1
     app.ActuatorConnectionStatusLamp.Color = 'red';
     app.isActuatorConnected = false;
-    app.RadarScreenTextArea.Value = "AMC4030 Connection Failed!";
+    app.StatusScreenTextArea.Value = "AMC4030 Connection Failed!";
 end
